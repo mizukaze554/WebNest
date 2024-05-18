@@ -45,4 +45,4 @@ WebNest is a simple tool for quickly setting up web development projects with ea
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) file for details.
