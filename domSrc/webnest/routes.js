@@ -1,20 +1,31 @@
-import * as components from './components.js';
 import * as functionsWebNest from '../src/main.js';
 
 export function RoutePath(routeMap) {
-    document.addEventListener('DOMContentLoaded', function () {
-        const currentPath = window.location.pathname;
-        
-        if (routeMap.hasOwnProperty(currentPath)) {
-            const webnestFunctionName = routeMap[currentPath];
+    function renderComponentForPath(path) {
+        if (routeMap.hasOwnProperty(path)) {
+            const webnestFunctionName = routeMap[path];
             
             if (typeof functionsWebNest[webnestFunctionName] === 'function') {
+                document.body.innerHTML = ''; // Clear existing content
                 functionsWebNest[webnestFunctionName]();
             } else {
                 console.error(`Function ${webnestFunctionName} is not defined.`);
             }
         } else {
-            console.error(`No function mapped for the path ${currentPath}.`);
+            console.error(`No function mapped for the path ${path}.`);
         }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        renderComponentForPath(window.location.pathname);
     });
+
+    window.addEventListener('popstate', function () {
+        renderComponentForPath(window.location.pathname);
+    });
+
+    window.navigate = function (path) {
+        history.pushState({}, '', path);
+        renderComponentForPath(path);
+    };
 }
